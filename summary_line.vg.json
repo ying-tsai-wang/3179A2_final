@@ -1,0 +1,63 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {"fontSize":20, "text":"All Measurement Average Line Chart"},
+  "data": {
+    "url": "https://raw.githubusercontent.com/ying-tsai-wang/3179/refs/heads/main/summary_line.csv"
+  },
+  "vconcat": [
+    {
+      "width": 400,
+      "height": 330,
+      "mark": {"type": "line", "strokeWidth": 3},
+      "encoding": {
+        "x": {
+          "field": "datetime_local",
+          "type": "temporal",
+          "axis": {"grid": false},
+          "title": "Time"
+        },
+        "y": {
+          "field": "average_value",
+          "type": "quantitative",
+          "axis": {"grid": false},
+          "title": "Average Value"
+          ,"scale": {"domain": [-4, 30]} 
+        },
+        "color": {
+          "field": "measurement_name",
+          "type": "nominal",
+          "title": "Measurement",
+          "scale": {
+            "domain": {
+              "param": "measurement_selector"
+            }
+          },
+          "condition": {
+            "param": "measurement_selector",
+            "field": "measurement_name",
+            "type": "nominal"
+          }
+        },
+        "opacity": {
+          "condition": {
+            "param": "measurement_selector",
+            "empty": false,
+            "value": 1
+          },
+          "value": 1
+        }
+      }
+    }
+  ],
+  "params": [
+    {
+      "name": "measurement_selector",
+      "select": {
+        "type": "point",
+        "fields": ["measurement_name"],
+        "bind": "legend",
+        "clear": "none"
+      }
+    }
+  ]
+}
